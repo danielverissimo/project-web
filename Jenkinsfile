@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'master' }
+    agent { docker 'maven:3.5-alpine' }
     stages {
         stage ('Checkout') {
           steps {
@@ -7,11 +7,8 @@ pipeline {
           }
         }
         stage('Build') {
-            agent { docker 'maven:3.5-alpine' }
             steps {
-                sh 'mvn clean package'
-                
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            		sh 'mvn clean package'            		    
             }
         }
         stage('Deploy') {
